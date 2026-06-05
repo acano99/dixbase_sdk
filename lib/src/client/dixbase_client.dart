@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dixbase_sdk/src/client/dixbase_http_client.dart';
+import 'package:dixbase_sdk/src/models/api_response.dart';
 import 'package:dixbase_sdk/src/models/dixbase_business.dart';
 import 'package:dixbase_sdk/src/models/dixbase_currency.dart';
 import 'package:dixbase_sdk/src/models/dixbase_invoice.dart';
@@ -62,8 +63,12 @@ class DixbaseClient {
     final response = await _httpClient.get(Endpoints.listCurrencies);
 
     if (response.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(response.body);
-      return jsonList.map((json) => DixbaseCurrency.fromJson(json)).toList();
+      final Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      final listResponse = DixbaseListResponse<DixbaseCurrency>.fromJson(
+        jsonMap,
+        (json) => DixbaseCurrency.fromJson(json),
+      );
+      return listResponse.data;
     } else {
       throw Exception('Error ${response.statusCode}: ${response.body}');
     }
