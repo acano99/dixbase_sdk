@@ -8,6 +8,8 @@ class DixbaseInvoice {
   final String blockchain;
   final String status;
   final DateTime? paidAt;
+  final DateTime expiresAt;
+  final DateTime createdAt;
   final String? clientEmail;
 
   DixbaseInvoice({
@@ -19,6 +21,8 @@ class DixbaseInvoice {
     required this.currency,
     required this.blockchain,
     required this.status,
+    required this.expiresAt,
+    required this.createdAt,
     this.paidAt,
     this.clientEmail,
   });
@@ -36,22 +40,9 @@ class DixbaseInvoice {
       paidAt: json['paid_at'] != null
           ? DateTime.parse(json['paid_at'] as String)
           : null,
+      expiresAt: DateTime.parse(json['expires_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
       clientEmail: json['client_email'] as String?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'url': url,
-      'address': address,
-      if (addressExtra != null) 'address_extra': addressExtra,
-      'amount': amount,
-      'currency': currency,
-      'blockchain': blockchain,
-      'status': status,
-      if (paidAt != null) 'paid_at': paidAt!.toIso8601String(),
-      if (clientEmail != null) 'client_email': clientEmail,
-    };
   }
 }
