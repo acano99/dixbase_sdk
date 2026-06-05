@@ -15,6 +15,7 @@ class DixbaseClient {
   Future<DixbaseInvoice> createInvoice({
     required double amount,
     required String currency,
+    String? currencyChain,
     String? chargeCurrency,
     String? clientEmail,
     String? idempotencyKey,
@@ -22,6 +23,7 @@ class DixbaseClient {
     final body = {
       'amount': amount,
       'currency': currency,
+      'currency_chain': ?currencyChain,
       'charge_currency': ?chargeCurrency,
       'client_email': ?clientEmail,
       'idempotency_key': ?idempotencyKey,
